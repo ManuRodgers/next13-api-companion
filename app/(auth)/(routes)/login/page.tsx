@@ -1,6 +1,5 @@
-type LoginPageProps = { name?: string };
-
-const LoginPage = ({ name }: LoginPageProps) => {
+const LoginPage = () => {
   return <div>LoginPage(unprotected)</div>;
 };
+
 export default LoginPage;
