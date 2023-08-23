@@ -1,3 +1,9 @@
+import { SearchInput } from '@/components/search-input';
+
 export default function RootPage() {
-  return <h1>hello mate</h1>;
+  return (
+    <div className="h-full p-4 space-y-2">
+      <SearchInput />
+    </div>
+  );
 }
