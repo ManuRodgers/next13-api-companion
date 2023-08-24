@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: 'Your customized companion.',
 };
 
-export default function RootLayout({
+export default function GlobalLayout({
   children,
 }: {
   children: React.ReactNode;
