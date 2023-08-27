@@ -11,6 +11,7 @@ export const Categories = ({ categories }: CategoriesProps) => {
   const searchParams = useSearchParams();
 
   const categoryId = searchParams.get('categoryId');
+  console.log('categoryId: ', categoryId);
   const onClick = (categoryId: string | undefined) => {
     const query = { categoryId };
     const url = qs.stringifyUrl(
@@ -23,7 +24,7 @@ export const Categories = ({ categories }: CategoriesProps) => {
     router.push(url);
   };
   return (
-    <div className="flex w-full p-1 space-x-2 overflow-x-auto border border-purple-700 border-solid">
+    <div className="flex w-full p-1 space-x-2 overflow-x-auto">
       <button
         onClick={() => {
           onClick(undefined);

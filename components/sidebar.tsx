@@ -38,7 +38,7 @@ export const SideBar = () => {
                 router.push(href);
               }}
               className={cn(
-                'text-muted-foreground text-xs group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-primary hover:bg-primary/10 rounded-lg transition',
+                'text-muted-foreground text-xs group flex p-3 w-full justify-center items-center font-medium cursor-pointer hover:text-primary hover:bg-primary/10 rounded-lg transition',
                 pathname === href && 'text-primary bg-primary/10'
               )}
             >
