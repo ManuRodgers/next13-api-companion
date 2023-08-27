@@ -1,6 +1,7 @@
 'use client';
 import { ImageUpload } from '@/components/image-upload';
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
 import {
   Form,
   FormControl,
@@ -21,6 +22,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Category, Companion } from '@prisma/client';
 import { Wand2 } from 'lucide-react';
@@ -46,7 +48,7 @@ Elon: Always! But right now, I'm particularly excited about Neuralink. It has th
 `;
 interface CompanionFormProps {
   categories: Category[];
-  initialData: Companion | null;
+  companion: Companion | null;
 }
 const companionFormSchema = z.object({
   // src: z.string().min(1, {
@@ -73,14 +75,16 @@ type CompanionFormType = z.infer<typeof companionFormSchema>;
 
 export const CompanionForm = ({
   categories,
-  initialData,
+  companion,
 }: CompanionFormProps) => {
-  const [src, setSrc] = useState('/placeholder.svg');
-  const router = useRouter();
   const { toast } = useToast();
+  const [src, setSrc] = useState(
+    companion ? companion.src : '/placeholder.svg'
+  );
+  const router = useRouter();
   const form = useForm<CompanionFormType>({
     resolver: zodResolver(companionFormSchema),
-    defaultValues: initialData || {
+    defaultValues: companion || {
       // src: '',
       name: '',
       description: '',
@@ -90,10 +94,34 @@ export const CompanionForm = ({
     },
   });
   const isLoading = form.formState.isSubmitting;
-  const errors = form.formState.errors;
 
   const onSubmit = async (values: CompanionFormType) => {
-    console.log('values: ', values);
+    try {
+      if (companion) {
+        await axios.patch(`/api/companion/${companion.id}`, {
+          ...values,
+          src,
+        });
+        toast({
+          variant: 'default',
+          description: 'Editing Companion Success.',
+          duration: 3000,
+        });
+      } else {
+        await axios.post('/api/companion', { ...values, src });
+        toast({
+          variant: 'default',
+          description: 'Creating Companion Success.',
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description: 'Something went wrong.',
+        duration: 3000,
+      });
+    }
   };
   return (
     <div className="h-full max-w-3xl p-4 mx-auto space-y-2">
@@ -255,7 +283,7 @@ export const CompanionForm = ({
           />
           <div className="flex justify-center w-full">
             <Button size={'lg'} disabled={isLoading} type="submit">
-              {initialData ? 'Edit your Companion' : 'Create your Companion'}
+              {companion ? 'Edit your Companion' : 'Create your Companion'}
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>
           </div>

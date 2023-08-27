@@ -12,7 +12,6 @@ const CompanionIdPage = async ({
   params: { companionId },
 }: CompanionIdPageProps) => {
   const { userId } = auth();
-  console.log('companionId: ', companionId);
 
   if (!userId) {
     return redirectToSignIn();
@@ -21,6 +20,6 @@ const CompanionIdPage = async ({
     where: { id: companionId, userId },
   });
   const categories = await db.category.findMany();
-  return <CompanionForm initialData={companion} categories={categories} />;
+  return <CompanionForm companion={companion} categories={categories} />;
 };
 export default CompanionIdPage;
