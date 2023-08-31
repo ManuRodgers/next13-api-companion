@@ -115,6 +115,8 @@ export const CompanionForm = ({
           duration: 3000,
         });
       }
+      router.refresh();
+      router.push('/');
     } catch (error) {
       toast({
         variant: 'destructive',

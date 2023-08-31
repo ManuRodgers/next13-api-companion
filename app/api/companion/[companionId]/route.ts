@@ -45,3 +45,23 @@ export async function PATCH(
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }
+export async function DELETE(
+  req: Request,
+  { params }: { params: { companionId: string } }
+) {
+  try {
+    const user = await currentUser();
+
+    if (!user || !user.id || !user.firstName) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+    const companion = await db.companion.delete({
+      where: { id: params.companionId, userId: user.id },
+    });
+
+    return NextResponse.json(companion);
+  } catch (error) {
+    console.log('[COMPANION DELETE  ERROR]', error);
+    return new NextResponse('Internal Server Error', { status: 500 });
+  }
+}
