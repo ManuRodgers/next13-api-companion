@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import { useToast } from '@/hooks/use-toast';
-import { useUser } from '@clerk/nextjs';
-import { Companion, Message } from '@prisma/client';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { BotAvatar } from '@/components/bot-avatar';
+import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@clerk/nextjs";
+import { Companion, Message } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { BotAvatar } from "@/components/bot-avatar";
 import {
   ChevronLeft,
   Edit,
   MessagesSquare,
   MoreVertical,
   Trash,
-} from 'lucide-react';
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import axios from 'axios';
-import { useCallback } from 'react';
+} from "@/components/ui/dropdown-menu";
+import axios from "axios";
+import { useCallback } from "react";
 
 type ChatHeaderProps = {
   companion: Companion & {
@@ -39,21 +39,21 @@ export const ChatHeader = ({ companion }: ChatHeaderProps) => {
     try {
       await axios.delete(`/api/companion/${companion.id}`);
       toast({
-        description: 'Success.',
+        description: "Success.",
       });
       router.refresh();
-      router.push('/');
+      router.push("/");
     } catch (error) {
       toast({
-        variant: 'destructive',
-        description: 'Something went wrong.',
+        variant: "destructive",
+        description: "Something went wrong.",
       });
     }
   }, [companion.id, router, toast]);
   return (
     <div className="flex items-center justify-between w-full pb-4 border-b border-primary/10">
       <div className="flex items-center gap-x-2">
-        <Button onClick={() => router.back()} size={'icon'} variant={'ghost'}>
+        <Button onClick={() => router.back()} size={"icon"} variant={"ghost"}>
           <ChevronLeft className="w-8 h-8" />
         </Button>
         <BotAvatar src={companion.src} />

@@ -1,8 +1,8 @@
-import { Companion } from '@prisma/client';
-import Image from 'next/image';
-import { Card, CardFooter, CardHeader } from '@/components/ui/card';
-import Link from 'next/link';
-import { MessageSquare } from 'lucide-react';
+import { Companion } from "@prisma/client";
+import Image from "next/image";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import Link from "next/link";
+import { MessageSquare } from "lucide-react";
 
 type CompanionsProps = {
   companions: (Companion & { _count: { messages: number } })[];
